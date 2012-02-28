@@ -15,12 +15,18 @@ Ticketee::Application.routes.draw do
 
   root :to => "projects#index"
   resources :projects do
-     resources :tickets do
-       collection do
-         get :search
-       end
-     end
-   end
+    resources :tickets do
+      collection do
+        get :search
+      end
+
+      member do
+        post :watch
+      end
+    end
+  end
+
+
 
   resources :tickets do
     resources :comments
