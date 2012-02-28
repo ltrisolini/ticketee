@@ -46,10 +46,21 @@ class ProjectsController < ApplicationController
 		
 	end
 	private
-		def find_project
-	@project = Project.for(current_user).find(params[:id])
-		rescue ActiveRecord::RecordNotFound
-		flash[:alert] = "The project you were looking" + " for could not be found."
-		redirect_to projects_path
-	end
+    def find_project
+      @project = if current_user.admin?
+        Project.find(params[:id])
+      else
+        Project.readable_by(current_user).find(params[:id])
+      end
+      rescue ActiveRecord::RecordNotFound
+      flash[:alert] = "The project you were looking" +
+                      " for could not be found."
+      redirect_to projects_path
+    end
+    
+    def check_for_sign_up
+      if request.referer == user_registration_url
+        redirect_to confirm_user_path
+      end
+    end
 end

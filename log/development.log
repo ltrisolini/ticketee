@@ -13983,3 +13983,298 @@ Migrating to AddPreviousStateIdToComments (20120226013333)
   [1m[36m (2.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120221035954')[0m
   [1m[35m (1.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120221061641')
   [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120223030120')[0m
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateProjects (20120125232842)
+Migrating to CreateTickets (20120129232558)
+Migrating to DeviseCreateUsers (20120201185750)
+Migrating to AddConfirmableFieldsToUsers (20120201192138)
+Migrating to AddUserIdToTickets (20120202035923)
+Migrating to AddAdminToUsers (20120206012622)
+Migrating to CreatePermissions (20120208214748)
+Migrating to AddAttachmentAssetToTicket (20120214041310)
+Migrating to CreateAssets (20120214051556)
+Migrating to CreateComments (20120220220423)
+Migrating to CreateStates (20120221035954)
+Migrating to AddDefaultToStates (20120221061641)
+Migrating to CreateTags (20120223030120)
+Migrating to AddPreviousStateIdToComments (20120226013333)
+Migrating to CreateTicketWatchersTable (20120228061346)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "ticket_watchers" ("user_id" integer, "ticket_id" integer) 
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120228061346')[0m
+  [1m[35m (3.2ms)[0m  commit transaction
+  [1m[36m (0.7ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("assets")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("comments")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("permissions")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("projects")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("states")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tags")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("tags_tickets")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("ticket_watchers")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_list("tickets")[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_tickets_on_state_id')
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_tickets_on_project_id')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_reset_password_token')[0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_info('index_users_on_email')
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.2ms)[0m  select sqlite_version(*)
+  [1m[36m (2.0ms)[0m  [1mCREATE TABLE "assets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "asset_file_name" varchar(255), "asset_file_size" integer, "asset_content_type" varchar(255), "asset_updated_at" datetime, "ticket_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (2.8ms)[0m  CREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "text" text, "ticket_id" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "state_id" integer, "previous_state_id" integer) 
+  [1m[36m (2.3ms)[0m  [1mCREATE TABLE "permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "thing_id" integer, "thing_type" varchar(255), "action" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (2.2ms)[0m  CREATE TABLE "projects" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (2.1ms)[0m  [1mCREATE TABLE "states" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "color" varchar(255), "background" varchar(255), "default" boolean) [0m
+  [1m[35m (1.5ms)[0m  CREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) 
+  [1m[36m (2.3ms)[0m  [1mCREATE TABLE "tags_tickets" ("tag_id" integer, "ticket_id" integer) [0m
+  [1m[35m (2.3ms)[0m  CREATE TABLE "ticket_watchers" ("user_id" integer, "ticket_id" integer) 
+  [1m[36m (2.1ms)[0m  [1mCREATE TABLE "tickets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "description" text, "project_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "state_id" integer) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("tickets")
+  [1m[36m (2.3ms)[0m  [1mCREATE INDEX "index_tickets_on_project_id" ON "tickets" ("project_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("tickets")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_tickets_on_project_id')[0m
+  [1m[35m (2.5ms)[0m  CREATE INDEX "index_tickets_on_state_id" ON "tickets" ("state_id")
+  [1m[36m (2.5ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(128) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "confirmation_token" varchar(255), "confirmed_at" datetime, "confirmation_sent_at" datetime, "admin" boolean DEFAULT 'f') [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("users")
+  [1m[36m (2.4ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+  [1m[35m (2.7ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (3.4ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36m (2.5ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (2.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120228061346')[0m
+  [1m[35m (2.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120125232842')
+  [1m[36m (1.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120129232558')[0m
+  [1m[35m (1.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120201185750')
+  [1m[36m (1.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120201192138')[0m
+  [1m[35m (2.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120202035923')
+  [1m[36m (2.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120206012622')[0m
+  [1m[35m (2.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120208214748')
+  [1m[36m (2.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120214041310')[0m
+  [1m[35m (2.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120214051556')
+  [1m[36m (1.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120220220423')[0m
+  [1m[35m (1.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120221035954')
+  [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120221061641')[0m
+  [1m[35m (1.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120223030120')
+  [1m[36m (1.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120226013333')[0m
+
+
+Started GET "/projects/1/tickets/1" for 127.0.0.1 at 2012-02-27 22:40:59 -0800
+Processing by TicketsController#show as HTML
+  Parameters: {"project_id"=>"1", "id"=>"1"}
+  [1m[36mState Load (0.1ms)[0m  [1mSELECT "states".* FROM "states" [0m
+Completed   in 2ms
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2012-02-27 22:40:59 -0800
+Processing by Devise::SessionsController#new as HTML
+  [1m[35mState Load (0.2ms)[0m  SELECT "states".* FROM "states" 
+  Rendered devise/shared/_links.erb (2.0ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (56.3ms)
+Compiled admin/permissions.css  (5ms)  (pid 2504)
+Compiled admin/states.css  (0ms)  (pid 2504)
+Compiled admin/users.css  (0ms)  (pid 2504)
+Compiled assets.css  (0ms)  (pid 2504)
+Compiled comments.css  (1ms)  (pid 2504)
+Compiled files.css  (0ms)  (pid 2504)
+Compiled projects.css  (0ms)  (pid 2504)
+Compiled tags.css  (0ms)  (pid 2504)
+Compiled tickets.css  (1ms)  (pid 2504)
+Compiled users.css  (1ms)  (pid 2504)
+Compiled application.css  (126ms)  (pid 2504)
+Compiled jquery.js  (3ms)  (pid 2504)
+Compiled jquery_ujs.js  (0ms)  (pid 2504)
+Compiled admin/permissions.js  (318ms)  (pid 2504)
+Compiled admin/states.js  (263ms)  (pid 2504)
+Compiled admin/users.js  (257ms)  (pid 2504)
+Compiled assets.js  (304ms)  (pid 2504)
+Compiled comments.js  (258ms)  (pid 2504)
+Compiled files.js  (256ms)  (pid 2504)
+Compiled projects.js  (258ms)  (pid 2504)
+Compiled tags.js  (259ms)  (pid 2504)
+Compiled tickets.js  (345ms)  (pid 2504)
+Compiled users.js  (288ms)  (pid 2504)
+Compiled application.js  (2955ms)  (pid 2504)
+Completed 200 OK in 3211ms (Views: 3188.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/assets/comments.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /comments.css - 200 OK (5ms)
+
+
+Started GET "/assets/admin/states.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /admin/states.css - 200 OK (2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /application.css - 200 OK (10ms)
+
+
+Started GET "/assets/admin/permissions.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /admin/permissions.css - 200 OK (1ms)
+
+
+Started GET "/assets/admin/users.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /admin/users.css - 200 OK (2ms)
+
+
+Started GET "/assets/files.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /files.css - 200 OK (1ms)
+
+
+Started GET "/assets/assets.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /assets.css - 200 OK (1ms)
+
+
+Started GET "/assets/projects.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /projects.css - 200 OK (1ms)
+
+
+Started GET "/assets/tickets.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /tickets.css - 200 OK (1ms)
+
+
+Started GET "/assets/tags.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /tags.css - 200 OK (1ms)
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /users.css - 200 OK (1ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /jquery.js - 200 OK (4ms)
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /jquery_ujs.js - 200 OK (2ms)
+
+
+Started GET "/assets/admin/permissions.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /admin/permissions.js - 200 OK (1ms)
+
+
+Started GET "/assets/admin/states.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /admin/states.js - 200 OK (1ms)
+
+
+Started GET "/assets/admin/users.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /admin/users.js - 200 OK (1ms)
+
+
+Started GET "/assets/assets.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /assets.js - 200 OK (1ms)
+
+
+Started GET "/assets/comments.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /comments.js - 200 OK (1ms)
+
+
+Started GET "/assets/users.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /users.js - 200 OK (1ms)
+
+
+Started GET "/assets/projects.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /projects.js - 200 OK (2ms)
+
+
+Started GET "/assets/files.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /files.js - 200 OK (1ms)
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /application.js - 200 OK (11ms)
+
+
+Started GET "/assets/tags.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /tags.js - 200 OK (1ms)
+
+
+Started GET "/assets/tickets.js?body=1" for 127.0.0.1 at 2012-02-27 22:41:02 -0800
+Served asset /tickets.js - 200 OK (1ms)
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.2ms)[0m  select sqlite_version(*)
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "assets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "asset_file_name" varchar(255), "asset_file_size" integer, "asset_content_type" varchar(255), "asset_updated_at" datetime, "ticket_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (2.5ms)[0m  CREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "text" text, "ticket_id" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "state_id" integer, "previous_state_id" integer) 
+  [1m[36m (2.2ms)[0m  [1mCREATE TABLE "permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "thing_id" integer, "thing_type" varchar(255), "action" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.6ms)[0m  CREATE TABLE "projects" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (1.9ms)[0m  [1mCREATE TABLE "states" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "color" varchar(255), "background" varchar(255), "default" boolean) [0m
+  [1m[35m (1.9ms)[0m  CREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) 
+  [1m[36m (2.4ms)[0m  [1mCREATE TABLE "tags_tickets" ("tag_id" integer, "ticket_id" integer) [0m
+  [1m[35m (2.2ms)[0m  CREATE TABLE "ticket_watchers" ("user_id" integer, "ticket_id" integer) 
+  [1m[36m (1.7ms)[0m  [1mCREATE TABLE "tickets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "description" text, "project_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "state_id" integer) [0m
+  [1m[35m (0.0ms)[0m  PRAGMA index_list("tickets")
+  [1m[36m (2.2ms)[0m  [1mCREATE INDEX "index_tickets_on_project_id" ON "tickets" ("project_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("tickets")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_info('index_tickets_on_project_id')[0m
+  [1m[35m (2.8ms)[0m  CREATE INDEX "index_tickets_on_state_id" ON "tickets" ("state_id")
+  [1m[36m (2.1ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(128) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "confirmation_token" varchar(255), "confirmed_at" datetime, "confirmation_sent_at" datetime, "admin" boolean DEFAULT 'f') [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("users")
+  [1m[36m (2.6ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.1ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+  [1m[35m (2.5ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (2.8ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36m (2.5ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.2ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120228061346')[0m
+  [1m[35m (1.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120125232842')
+  [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120129232558')[0m
+  [1m[35m (1.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120201185750')
+  [1m[36m (2.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120201192138')[0m
+  [1m[35m (1.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120202035923')
+  [1m[36m (2.9ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120206012622')[0m
+  [1m[35m (1.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120208214748')
+  [1m[36m (2.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120214041310')[0m
+  [1m[35m (1.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120214051556')
+  [1m[36m (2.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120220220423')[0m
+  [1m[35m (2.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120221035954')
+  [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120221061641')[0m
+  [1m[35m (2.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120223030120')
+  [1m[36m (2.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120226013333')[0m
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35m (0.2ms)[0m  select sqlite_version(*)
+  [1m[36m (2.8ms)[0m  [1mCREATE TABLE "assets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "asset_file_name" varchar(255), "asset_file_size" integer, "asset_content_type" varchar(255), "asset_updated_at" datetime, "ticket_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (4.7ms)[0m  CREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "text" text, "ticket_id" integer, "user_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "state_id" integer, "previous_state_id" integer) 
+  [1m[36m (16.2ms)[0m  [1mCREATE TABLE "permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "thing_id" integer, "thing_type" varchar(255), "action" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (8.0ms)[0m  CREATE TABLE "projects" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (52.5ms)[0m  [1mCREATE TABLE "states" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "color" varchar(255), "background" varchar(255), "default" boolean) [0m
+  [1m[35m (41.7ms)[0m  CREATE TABLE "tags" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255)) 
+  [1m[36m (12.2ms)[0m  [1mCREATE TABLE "tags_tickets" ("tag_id" integer, "ticket_id" integer) [0m
+  [1m[35m (18.5ms)[0m  CREATE TABLE "ticket_watchers" ("user_id" integer, "ticket_id" integer) 
+  [1m[36m (16.4ms)[0m  [1mCREATE TABLE "tickets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "description" text, "project_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "user_id" integer, "state_id" integer) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("tickets")
+  [1m[36m (2.7ms)[0m  [1mCREATE INDEX "index_tickets_on_project_id" ON "tickets" ("project_id")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("tickets")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_tickets_on_project_id')[0m
+  [1m[35m (18.1ms)[0m  CREATE INDEX "index_tickets_on_state_id" ON "tickets" ("state_id")
+  [1m[36m (10.0ms)[0m  [1mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "email" varchar(255) DEFAULT '' NOT NULL, "encrypted_password" varchar(128) DEFAULT '' NOT NULL, "reset_password_token" varchar(255), "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar(255), "last_sign_in_ip" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "confirmation_token" varchar(255), "confirmed_at" datetime, "confirmation_sent_at" datetime, "admin" boolean DEFAULT 'f') [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("users")
+  [1m[36m (2.8ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")[0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("users")
+  [1m[36m (0.0ms)[0m  [1mPRAGMA index_info('index_users_on_email')[0m
+  [1m[35m (7.8ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")
+  [1m[36m (10.1ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  PRAGMA index_list("schema_migrations")
+  [1m[36m (10.3ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (17.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120228061346')[0m
+  [1m[35m (2.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120125232842')
+  [1m[36m (1.8ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120129232558')[0m
+  [1m[35m (33.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120201185750')
+  [1m[36m (4.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120201192138')[0m
+  [1m[35m (12.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120202035923')
+  [1m[36m (26.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120206012622')[0m
+  [1m[35m (13.2ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120208214748')
+  [1m[36m (1.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120214041310')[0m
+  [1m[35m (12.8ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120214051556')
+  [1m[36m (25.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120220220423')[0m
+  [1m[35m (12.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120221035954')
+  [1m[36m (30.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120221061641')[0m
+  [1m[35m (14.7ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20120223030120')
+  [1m[36m (2.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20120226013333')[0m
