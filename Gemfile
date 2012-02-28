@@ -32,6 +32,7 @@ group :test, :development do
 	gem 'cancan'
 	gem 'launchy'
 	gem 'paperclip'
+	gem 'searcher'
 	gem 'email_spec'
 	gem 'rake'
 end
@@ -46,6 +47,7 @@ group :test do
 	gem 'cancan'
 	gem 'launchy'
 	gem 'paperclip'
+	gem 'searcher'
 	gem 'email_spec'
 	gem 'rake'
 end

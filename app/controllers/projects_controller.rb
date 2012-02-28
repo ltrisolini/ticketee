@@ -42,7 +42,8 @@ class ProjectsController < ApplicationController
 		redirect_to projects_path
 	end
 	def show
-	@project = Project.for(current_user).find(params[:id])
+		@tickets = @project.tickets
+		
 	end
 	private
 		def find_project
