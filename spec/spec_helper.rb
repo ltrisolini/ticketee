@@ -22,7 +22,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   config.mock_with :rspec
-  config.include Devise::TestHelpers
+  # config.include Devise::TestHelpers
   
   
   

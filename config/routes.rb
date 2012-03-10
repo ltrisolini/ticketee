@@ -1,18 +1,7 @@
 Ticketee::Application.routes.draw do
 
 	resources :files
-
-	put '/admin/users/:user_id/permissions',
-			:to => 'admin/permissions#update',
-			:as => :update_user_permissions
-			
-	devise_for :users, :controllers => { :registrations => "registrations" }
-	get '/awaiting_confirmation',
-		:to => "users#confirmation",
-		:as => 'confirm_user'	
 		
-							
-
   root :to => "projects#index"
   resources :projects do
     resources :tickets do
@@ -47,7 +36,24 @@ Ticketee::Application.routes.draw do
         get :make_default
       end
     end
-  end  # The priority is based upon order of creation:
+  end 
+  
+  devise_for :users, :controllers => { :registrations => "registrations" }
+	
+	get '/awaiting_confirmation',
+		:to => "users#confirmation",
+		:as => 'confirm_user'
+		
+	put '/admin/users/:user_id/permissions',
+			:to => 'admin/permissions#update',
+			:as => :update_user_permissions
+   
+	
+	 
+	  
+	   
+		
+		  # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:

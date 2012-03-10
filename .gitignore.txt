@@ -3,3 +3,5 @@ db/*.sqlite3
 log/*.log
 tmp/**/*
 public/system
+
+config/initializers/mail.rbfeatures/sending_emails.feature
